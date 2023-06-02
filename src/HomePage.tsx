@@ -33,10 +33,6 @@ const HomePage: FC = () => {
   const chooseDate = () => {
     setIsCalendarOpen(true)
   }
-
-  const handleTodo = () =>{
-
-  }
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault()
     setNewTask(e.target.value)
@@ -86,9 +82,6 @@ const HomePage: FC = () => {
            onClick={showModal}
            >
             Add task
-          </Button>
-          <Button type="primary" onClick={handleTodo}>
-            Show tasks
           </Button>
         </div>
         <Modal className='modal' title="Add Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
