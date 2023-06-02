@@ -1,38 +1,80 @@
-.App {
-  text-align: center;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.home-img {
+    width: 15rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.homePage-wrapper {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(171, 207, 234);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.homePage-title {
+    margin: 1rem 0;
 }
-
-.App-link {
-  color: #61dafb;
+.modal{
+    padding: 4rem;
 }
+.modal-btn{
+    margin-right: 2rem;
+}
+.todoPage-container{
+    height: 100vh;
+    background-color: rgb(248, 248, 249);
+}
+.app-title-wrapper{
+    display: flex;
+    padding-top: 3rem;
+    justify-content: center;
+}
+.app-title{
+    font-size: 1.2rem;
+    margin-left: 2rem;
+}  
+.todoList{
+background-color: white;
+margin: 5rem;
+border-radius: 0.1rem;
+}
+.todo-btns{
+    display: flex;
+    justify-content: space-between;
+    padding:2rem 4rem;
+}
+.showTask-btn{
+    color: green;
+    background-color: white;
+    border: 0.1rem solid rgb(244, 243, 243);
+}
+.addTask-btn{
+    background-color: rgb(77, 161, 77);
+}
+.sitter{
+    width: 2rem;
+}
+.todo-group{
+    display: flex;
+    background-color: red;
+    justify-content: space-between;
+    padding: 0.7rem;
+}
+.todos{
+    display: flex;
+}
+@media (max-width: 480px) {
+    .homePage-wrapper {
+        padding: 0 2rem;
+    }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    .homePage-title {
+        font-size: 1rem;
+    }
 }

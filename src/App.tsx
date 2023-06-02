@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useState } from 'react'
+import HomePage from './HomePage'
+import { createContext } from 'react';
+import { todo } from './Interface';
+import DropTask from './components/DropDown';
+import AllTasks from './components/AllTasks';
+import TodoDropdown from './components/TodoDropdown';
 
-function App() {
+
+export type todoType = {
+  taskList : todo[],
+  setTaskList :  React.Dispatch<React.SetStateAction<todo[]>>
+}
+export const taskContext = createContext({} as todoType)
+const App:FC = () => {
+ 
+  const [taskList, setTaskList] = useState<todo[]>([])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <taskContext.Provider value={{taskList, setTaskList}}>
+    <HomePage />
+    <DropTask />
+    <AllTasks />
+    <TodoDropdown />
+    </taskContext.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
