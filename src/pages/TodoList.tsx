@@ -64,16 +64,17 @@ const TodoList = () => {
         })
         setTaskList(newArr)
     }
-    // useEffect(() => {
-    //     const data = localStorage.getItem('TODO_LIST')
-    //     if(data) {
-    // if(data)
-    //     }
-    // })
 
-    // useEffect(() => {
-    //     localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
-    // }, [taskList])
+    useEffect(() => {
+        const data = localStorage.getItem('TODO_LIST')
+        if (data) {
+            const acquiredData = JSON.parse(data)
+            setTaskList(acquiredData)
+        }
+    }, [])
+    useEffect(() => {
+        localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
+    }, [taskList])
     return (
         <div>
             <div className='todoPage-container'>
@@ -97,9 +98,9 @@ const TodoList = () => {
                     </Modal>
                     {
                         taskList.sort((a, b) => b.id - a.id).map((item) => {
-                            return <div>
+                            return <div key={item.id}>
                                 <div className='todo-group'>
-                                    <div className='todos' key={item.id}>
+                                    <div className='todos'>
                                         {/* <h1>{item.id}</h1> */}
                                         <input
                                             // onChange={() => checked(item.id)}
