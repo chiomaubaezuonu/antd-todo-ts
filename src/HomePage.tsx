@@ -2,7 +2,6 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import noTask from './images/noTask-img.png';
 import { Button, Calendar, Modal } from 'antd';
 import "./App.css"
-import MyCalendar from './components/MyCalendar';
 import TodoList from "./pages/TodoList";
 import { todo } from "./Interface"
 

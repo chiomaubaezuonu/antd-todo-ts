@@ -69,6 +69,10 @@ border-radius: 0.1rem;
 .todos{
     display: flex;
 }
+.dropDown{
+    font-size: 2rem;
+    cursor: pointer;
+}
 @media (max-width: 480px) {
     .homePage-wrapper {
         padding: 0 2rem;
