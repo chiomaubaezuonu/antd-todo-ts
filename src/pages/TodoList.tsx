@@ -6,6 +6,8 @@ import TodoDropdown from '../components/TodoDropdown';
 import TodoDatePicker from '../components/TodoDatePicker';
 import ProgressBar from '../components/ProgressBar';
 import { todoType } from '../App';
+import AllTasks from '../components/AllTasks';
+import { BtnType } from '../components/Btn';
 
 type TaskListType = {
     taskList: todo[],
@@ -79,6 +81,7 @@ const TodoList = () => {
     useEffect(() => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
+
     return (
         <div>
             <div className='todoPage-container'>
@@ -89,7 +92,7 @@ const TodoList = () => {
                 <div className='todoList'>
                     <h2>Task List</h2>
                     <div className='todo-btns'>
-                        <Button type="primary" className='showTask-btn' onClick={showModal}>Show All Tasks</Button>
+                        <AllTasks />
                         <Button type="primary" className='addTask-btn' onClick={showModal}>
                             + Add a task
                         </Button>

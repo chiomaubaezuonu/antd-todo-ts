@@ -4,7 +4,9 @@ import { createContext } from 'react';
 import { todo } from './Interface';
 import AllTasks from './components/AllTasks';
 import TodoDropdown from './components/TodoDropdown';
-//import TaskDropDown from './components/TaskDropDown';
+// import TaskDropDown from './components/TaskDropDown';
+import { BtnType } from './components/Btn';
+import TodoList from './pages/TodoList';
 
 
 export type todoType = {
@@ -21,6 +23,7 @@ const App = () => {
     <HomePage />
     <AllTasks />
     {/* <TaskDropDown /> */}
+    <TodoList />
     <TodoDropdown/>
     </taskContext.Provider>
     </div>
