@@ -81,10 +81,11 @@ margin: auto;
 }
 @media (max-width: 480px) {
     .homePage-wrapper {
+        background-color: green;
         padding: 0 2rem;
     }
 
     .homePage-title {
-        font-size: 1rem;
+        padding: 0 0.5rem;
     }
 }
