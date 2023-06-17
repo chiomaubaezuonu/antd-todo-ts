@@ -2,10 +2,6 @@ import React, { FC, useState } from 'react'
 import HomePage from './HomePage'
 import { createContext } from 'react';
 import { todo } from './Interface';
-import AllTasks from './components/AllTasks';
-import TodoDropdown from './components/TodoDropdown';
-// import TaskDropDown from './components/TaskDropDown';
-import { BtnType } from './components/Btn';
 import TodoList from './pages/TodoList';
 
 
@@ -20,11 +16,8 @@ const App = () => {
   return (
     <div>
     <taskContext.Provider value={{taskList, setTaskList}}>
-    <HomePage />
-    <AllTasks />
-    {/* <TaskDropDown /> */}
+    {/* <HomePage /> */}
     <TodoList />
-    <TodoDropdown/>
     </taskContext.Provider>
     </div>
   )

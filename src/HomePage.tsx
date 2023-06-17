@@ -11,26 +11,9 @@ const HomePage: FC = () => {
   const [taskList, setTaskList] = useState<todo[]>([])
   const [todoPage, setTodoPage] = useState<boolean>(false);
 
-
-  
-  // const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
-  //   e.preventDefault()
-  //   setNewTask(e.target.value)
-  //   const myTodo = {
-  //     id: taskList.length === 0 ? 1 : taskList.length + 1,
-  //     taskName: newTask,
-  //     dueDate: "",
-  //     isDone: false
-  //   }
-  //   setTaskList([...taskList, myTodo])
-  //   //setTodoPage(true)
-  // }
-
   const addTask = () => {
-    console.log(taskList.length)
-    setTodoPage(!todoPage)
+    setTodoPage(true)
   }
-  
   
 
   return (
