@@ -20,65 +20,80 @@
 .homePage-title {
     margin: 1rem 0;
 }
-.modal{
+
+.modal {
     padding: 4rem;
 }
-.modal-btn{
+
+.modal-btn {
     margin-right: 2rem;
 }
-.progressBar{
+
+.progressBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.todoPage-container{
-    background-color: rgb(245, 249, 253);  
+
+.todoPage-container {
+    background-color: rgb(245, 249, 253);
     padding: 1.4rem;
 }
-.app-title-wrapper{
+
+.app-title-wrapper {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
 }
-.app-title{
+
+.app-title {
     font-size: 1.2rem;
     margin-left: 2rem;
-}  
-.todoList{
-background-color: white;
-width: 50%;
-border-radius: 0.1rem;
-padding: 1rem;
-margin: auto;
 }
-.todo-btns{
+
+.todoList {
+    background-color: white;
+    width: 50%;
+    border-radius: 0.1rem;
+    padding: 1rem;
+    margin: auto;
+}
+
+.todo-btns {
     display: flex;
     justify-content: space-between;
-    padding:2rem 4rem;
+    padding: 2rem 4rem;
 }
-.showTask-btn{
+
+.showTask-btn {
     color: green;
     background-color: white;
     border: 0.1rem solid rgb(244, 243, 243);
 }
-.addTask-btn{
+
+.addTask-btn {
     background-color: rgb(77, 161, 77);
 }
-.sitter{
+
+.sitter {
     width: 2rem;
 }
-.todo-group{
+
+.todo-group {
     display: flex;
     justify-content: space-between;
     padding: 0.7rem;
 }
-.todos{
+
+.todos {
     display: flex;
 }
-.dropDown{
+
+.dropDown {
     font-size: 2rem;
     cursor: pointer;
 }
+
 @media (max-width: 480px) {
     .homePage-wrapper {
         background-color: green;
@@ -87,5 +102,25 @@ margin: auto;
 
     .homePage-title {
         padding: 0 0.5rem;
+    }
+
+    .todoPage-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .todo-btns {
+        /* display: flex;
+        flex-direction: column; */
+        padding: 0;
+        background-color: yellow;
+    }
+    #taskList-title{
+        display: none;
+    }
+    .todoList{
+        width: 100%;
+        background-color: lawngreen;
     }
 }

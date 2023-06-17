@@ -184,7 +184,7 @@ const TodoList = () => {
                     </Col>
                     <Col className='todoList'>
                         <Col className='progressBar'>
-                            <Title level={2}>Task List</Title>
+                            <Title level={2} id='taskList-title'>Task List</Title>
                             <div style={{ width: 170 }}>
                                 <Progress percent={30} size="small" />
                             </div>
