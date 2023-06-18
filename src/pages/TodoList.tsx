@@ -185,9 +185,11 @@ const TodoList = () => {
                     <Col className='todoList'>
                         <Col className='progressBar'>
                             <Title level={2} id='taskList-title'>Task List</Title>
-                            <div style={{ width: 170 }}>
-                                <Progress percent={30} size="small" />
-                            </div>
+                            <Col>
+                                <Col style={{ color: "gray" }}> {taskList.length} Tasks left</Col>
+                                <div style={{ width: 170 }}>
+                                    <Progress percent={30} size="small" />
+                                </div></Col>
                         </Col>
                         <Col className='todo-btns'>
                             <Button type="primary"
@@ -215,13 +217,7 @@ const TodoList = () => {
                                 return <Col key={item.id}>
                                     <Col className='todo-group'>
                                         <Col className='todos'>
-                                            {/* <input
-                                                // onChange={() => checked(item.id)}
-                                                type='checkbox' /> */}
                                             <p style={{ marginBottom: '20px', marginRight: '1rem' }}>
-                                                {/* <Checkbox checked={checked} disabled={disabled} onChange={onChange}>
-                                                    {label}
-                                                </Checkbox> */}
                                                 <Checkbox onChange={onChange}></Checkbox>
 
                                             </p>
