@@ -38,6 +38,7 @@
 .todoPage-container {
     background-color: rgb(245, 249, 253);
     padding: 1.4rem;
+    height: 100vh;
 }
 
 .app-title-wrapper {
@@ -114,7 +115,6 @@
         /* display: flex;
         flex-direction: column; */
         padding: 0;
-        background-color: yellow;
     }
     #taskList-title{
         display: none;
