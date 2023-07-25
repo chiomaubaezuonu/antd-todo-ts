@@ -3,6 +3,7 @@ import HomePage from './HomePage'
 import { createContext } from 'react';
 import { todo } from './Interface';
 import TodoList from './pages/TodoList';
+import Tuts from './pages/Tuts';
 
 
 export type todoType = {
@@ -16,8 +17,8 @@ const App = () => {
   return (
     <div>
     <taskContext.Provider value={{taskList, setTaskList}}>
-    {/* <HomePage /> */}
     <TodoList />
+    {/* <Tuts /> */}
     </taskContext.Provider>
     </div>
   )
