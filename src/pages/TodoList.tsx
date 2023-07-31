@@ -10,6 +10,7 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { checkServerIdentity } from 'tls';
+import { stringify } from 'querystring';
 
 const data = localStorage.getItem('TODO_LIST')
 
@@ -35,7 +36,7 @@ const TodoList = () => {
     const [newTask, setNewTask] = useState<string>("");
     const [taskList, setTaskList] = useState<Todo[]>(acquiredData)
     const [todoDueDate, setTodoDueDate] = useState<boolean>(false)
-    const [checkedTask, setCheckedTask] = useState(false);
+    const [taskStatus, setTaskStatus] = useState<string>("");
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0)
     const [countChecked, setCountChecked] = useState<number>(0)
@@ -44,6 +45,8 @@ const TodoList = () => {
     //     backgroundColor: myChecked ? "gray" : "",
     //     opacity: myChecked ? "1" : ""
     // }
+    const taskProgress = countChecked / taskList.length * 100;
+    const taskPercentage = Number(taskProgress.toFixed())
     const addTask1 = () => {
         setTodoPage(true)
         setIsModalOpen(true)
@@ -117,19 +120,36 @@ const TodoList = () => {
                             <Col>
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
-                                    <Progress percent={progress} size="small" />
+                                    <Col>{countChecked}/ {taskList.length} tasks left</Col>
+                                    <Progress percent={taskPercentage} size="small" />
                                 </div></Col>
                         </Col>
                         <Col className='todo-btns'>
                             <Select
-                                // value={completedTask}
+                                value={taskStatus}
                                 style={{ width: 150 }}
-                                // onChange={handleChange}
                                 defaultValue="ShowTasks"
+                                onChange={newTaskStatus => {
+                                    setTaskStatus(newTaskStatus);
+                                    if (newTaskStatus === "Completed Tasks") {
+                                        setTaskList(taskList.filter((aTodo) => {
+                                            return aTodo.isDone === true
+                                        }))
+                                    }
+                                    else if (newTaskStatus === "Pending Tasks") {
+                                        console.log(taskList)
+                                        setTaskList(taskList.filter((aTodo) => {
+                                            return aTodo.isDone === false
+                                        }))
+                                    }
+                                    else {
+                                        return setTaskList(taskList)
+                                    }
+                                }}
                             >
-
-                                <Option key="completedTasks" value="completedTasks"> Completed Tasks</Option>
-                                <Option value="pendingTasks"> Pending Tasks</Option>
+                                <Option key="allTask" value="All Tasks"> All Tasks</Option>
+                                <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
+                                <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option value="overdueTasks"> Overdue Tasks</Option>
                             </Select>
                             <Button type="primary" className='addTask-btn' onClick={showModal}>
@@ -144,33 +164,37 @@ const TodoList = () => {
                         {
                             taskList.sort((a, b) => b.id - a.id).map((item) => {
                                 return <Col>
-                                    <Col className='todo-group'>
+                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "" }}>
                                         <Col className='todos' key={item.id}>
-                                            <Switch checked={item.isDone}
-                                                onChange={(newCheckedTask: boolean) => {
+                                            <Checkbox checked={item.isDone}
+                                                onChange={(e: CheckboxChangeEvent) => {
                                                     const newList: any = taskList.map(task => {
                                                         if (task.taskName === item.taskName) {
-                                                            //console.log(newCheckedTask)
+                                                            e.target.checked === true ? setCountChecked(countChecked + 1) : setCountChecked(countChecked - 1)
                                                             return {
                                                                 ...task,
-                                                                isDone: newCheckedTask
+                                                                isDone: e.target.checked
                                                             }
                                                         }
                                                         else {
                                                             return task
                                                         }
+
                                                     })
-                                            setTaskList(newList)
+                                                    setTaskList(newList)
                                                 }
                                                 }
                                             />
                                             <Col> {item.taskName}</Col>
                                         </Col>
-                                        <Select style={{ width: "100px" }} bordered={false}>
+                                        <Select style={{ width: "100px" }} bordered={false}
+                                        onChange={()=>{setTaskList(taskList.filter((deleteTask)=>{
+                                            return deleteTask.taskName === item.taskName ? false : true
+                                        }))}}
+                                        >
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
-                                            <Option value="pendingTasks">Delete</Option>
+                                            <Option value="deleteTask">Delete</Option>
                                         </Select>
-                                        <p>{countChecked}</p>
                                     </Col>
                                     <hr />
 
