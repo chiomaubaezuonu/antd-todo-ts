@@ -135,9 +135,9 @@ const TodoList = () => {
                                         setFiltered(taskList.filter((current) => {
                                             return current.isDone === true
                                         }))
-                                       
+
                                     }
-                                    
+
                                     else if (newTaskStatus === "Pending Tasks") {
                                         const p = taskList.filter((current) => {
                                             return current.isDone === false
@@ -145,11 +145,11 @@ const TodoList = () => {
                                         setFiltered(p)
                                         console.log(p)
                                     }
-                                    else{
+                                    else {
                                         setFiltered(taskList)
                                     }
                                 }}
-                               
+
                             >
                                 <Option key="allTask" value="All Tasks"> All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
@@ -193,10 +193,13 @@ const TodoList = () => {
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
-                                                setFiltered(taskList.filter((deleteTask) => {
-                                                    if(deleteTask.taskName === item.taskName)
-                                                   // return deleteTask.taskName === item.taskName ? false : true
-                                                }))
+                                               
+                                                    if (taskToDelete === "deleteTask") {
+                                                       setFiltered(taskList.filter((deleteTask) => {
+                                                        return deleteTask.taskName !== item.taskName
+                                                          }))
+                                                    }
+
                                             }}
                                         >
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
@@ -216,4 +219,5 @@ const TodoList = () => {
     )
 }
 
-export default TodoList
+export default TodoList       
+ // return deleteTask.taskName === item.taskName ? false : true
