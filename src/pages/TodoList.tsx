@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import sitter from "../images/sitter.png"
-import { Button, Checkbox, Col, Input, Modal, Row, Select, Space, Progress, Switch } from 'antd';
+import { Button, Checkbox, Col, Input, DatePicker, Modal, Row, Select, Space, Progress, Switch } from 'antd';
 //ngimport { todo } from '../Interface';
 import { todoType } from '../App';
 import noTask from "../images/noTask-img.png";
@@ -29,7 +29,7 @@ export type propsType = {
     setTaskList: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 const { Option } = Select;
-
+const { RangePicker } = DatePicker;
 const TodoList = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
@@ -65,7 +65,7 @@ const TodoList = () => {
             dueDate: "",
             isDone: false
         }
-        setTaskList([...taskList, myTask])
+        setFiltered([...taskList, myTask])
         setNewTask("")
         setIsModalOpen(false);
     };
@@ -83,14 +83,13 @@ const TodoList = () => {
         setNewTask(e.target.value)
     }
 
-    // const handleDelete = (id: number) => {
-    //     console.log(id)
-    //     const newArr = taskList.filter((item) => {
-    //         return id === item.id ? false : true
-    //     })
-    //     setTaskList(newArr)
-    // }
 
+    // const handleDel = (taskName:string) => {
+    //     const newSet = taskList.filter((d) => {
+    //         return taskName !== d.taskName
+    //     })
+    //     setFiltered(newSet)
+    // }
     useEffect(() => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
@@ -128,7 +127,6 @@ const TodoList = () => {
                             <Select
                                 value={taskStatus}
                                 style={{ width: 150 }}
-                                //defaultValue="All Tasks"
                                 onChange={newTaskStatus => {
                                     setTaskStatus(newTaskStatus)
                                     if (newTaskStatus === "Completed Tasks") {
@@ -151,7 +149,7 @@ const TodoList = () => {
                                 }}
 
                             >
-                                <Option key="allTask" value="All Tasks"> All Tasks</Option>
+                                <Option key="allTask" value=""> All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option value="overdueTasks"> Overdue Tasks</Option>
@@ -162,18 +160,20 @@ const TodoList = () => {
                         </Col>
                         <Modal className='modal' title="Add Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                             <Input type='text' onChange={addTask} value={newTask} placeholder='Enter Task...' />
-                            {/* <input type='text' onChange={chooseDate} onClick={chooseDate} placeholder='Due date...' /> */}
-
+                            <Space direction="vertical" size={12}>
+                                 <RangePicker />
+                                {/* <RangePicker showTime /> */}
+                            </Space>
                         </Modal>
                         {
                             filtered.sort((a, b) => b.id - a.id).map((item) => {
                                 return <Col>
-                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "" }}>
+                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "", opacity: item.isDone ? "0.7" : "" }}>
                                         <Col className='todos' key={item.id}>
                                             <Checkbox checked={item.isDone}
                                                 onChange={(e: CheckboxChangeEvent) => {
                                                     const newList: any = taskList.map(task => {
-                                                        if (task.taskName === item.taskName) {
+                                                        if (task.id === item.id) {
                                                             e.target.checked === true ? setCountChecked(countChecked + 1) : setCountChecked(countChecked - 1)
                                                             return {
                                                                 ...task,
@@ -185,7 +185,7 @@ const TodoList = () => {
                                                         }
 
                                                     })
-                                                    setTaskList(newList)
+                                                    setFiltered(newList)
                                                 }
                                                 }
                                             />
@@ -193,18 +193,18 @@ const TodoList = () => {
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
-                                               
-                                                    if (taskToDelete === "deleteTask") {
-                                                       setFiltered(taskList.filter((deleteTask) => {
+                                                console.log(taskToDelete.taskName)
+                                                if (taskToDelete.taskName !== item.taskName) {
+                                                    setFiltered(taskList.filter((deleteTask) => {
                                                         return deleteTask.taskName !== item.taskName
-                                                          }))
-                                                    }
-
+                                                    }))
+                                                }
                                             }}
                                         >
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>
                                         </Select>
+                                        {/* <button onClick={() => handleDel(item.taskName)}>X</button> */}
                                     </Col>
                                     <hr />
 
@@ -219,5 +219,5 @@ const TodoList = () => {
     )
 }
 
-export default TodoList       
+export default TodoList
  // return deleteTask.taskName === item.taskName ? false : true

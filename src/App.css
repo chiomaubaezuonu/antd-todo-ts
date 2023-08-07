@@ -153,9 +153,9 @@
     }
 }
 @media (min-width: 800px){
-   .todoPage-container{
+   /* .todoPage-container{
     background-color: pink;
-   }
+   } */
    .todoList {
     background-color: white;
     width: 80%;
