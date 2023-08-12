@@ -11,12 +11,16 @@ import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { checkServerIdentity } from 'tls';
 import { stringify } from 'querystring';
+import dayjs, { Dayjs } from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+
 
 const data = localStorage.getItem('TODO_LIST')
 
 const acquiredData = data ? JSON.parse(data) : []
 
-
+console.log(dayjs(new Date()))
 
 type Todo = {
     id: number,
@@ -32,10 +36,10 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const TodoList = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+    const [dateRange, setDateRange] = useState<null | [Dayjs, Dayjs]>(null);
     const [newTask, setNewTask] = useState<string>("");
     const [taskList, setTaskList] = useState<Todo[]>(acquiredData)
-    const [todoDueDate, setTodoDueDate] = useState<boolean>(false)
+    //const [todoDueDate, setTodoDueDate] = useState<boolean>(false)
     const [taskStatus, setTaskStatus] = useState<string>("");
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [filtered, setFiltered] = useState<Todo[]>(acquiredData)
@@ -45,6 +49,12 @@ const TodoList = () => {
     //     backgroundColor: myChecked ? "gray" : "",
     //     opacity: myChecked ? "1" : ""
     // }
+    // console.log(dateRange)
+    // dayjs.extend(relativeTime);
+    // const date = dayjs().add(7, 'days')
+    // const relativeDate = date.fromNow();
+
+
     const taskProgress = countChecked / taskList.length * 100;
     const taskPercentage = Number(taskProgress.toFixed())
     const addTask1 = () => {
@@ -161,7 +171,12 @@ const TodoList = () => {
                         <Modal className='modal' title="Add Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                             <Input type='text' onChange={addTask} value={newTask} placeholder='Enter Task...' />
                             <Space direction="vertical" size={12}>
-                                 <RangePicker />
+                                <RangePicker
+                                    onChange={(dayjsArr) => {
+                                        const range = setDateRange(dayjsArr as null | [Dayjs, Dayjs])
+
+                                    }}
+                                />
                                 {/* <RangePicker showTime /> */}
                             </Space>
                         </Modal>
@@ -190,6 +205,7 @@ const TodoList = () => {
                                                 }
                                             />
                                             <Col> {item.taskName}</Col>
+                                            <Col>{dateRange ? dateRange[0].format("DD-MM-YYYY") : "Please pick a date"}</Col>
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
@@ -204,7 +220,6 @@ const TodoList = () => {
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>
                                         </Select>
-                                        {/* <button onClick={() => handleDel(item.taskName)}>X</button> */}
                                     </Col>
                                     <hr />
 
