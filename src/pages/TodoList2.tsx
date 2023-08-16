@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import sitter from "../images/sitter.png"
-import { Button, Checkbox, Col, Input, DatePicker, Modal, Row, Select, Space, Progress, Switch } from 'antd';
+import { Button, Checkbox, Col, Input, Modal, Row, Select, Space, Progress, Switch } from 'antd';
 //ngimport { todo } from '../Interface';
 import { todoType } from '../App';
 import noTask from "../images/noTask-img.png";
@@ -11,14 +11,11 @@ import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { checkServerIdentity } from 'tls';
 import { stringify } from 'querystring';
-import dayjs, { Dayjs } from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
-
 
 const data = localStorage.getItem('TODO_LIST')
 
 const acquiredData = data ? JSON.parse(data) : []
+
 
 
 type Todo = {
@@ -32,12 +29,13 @@ export type propsType = {
     setTaskList: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 const { Option } = Select;
-const { RangePicker } = DatePicker;
+
 const TodoList = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    // const [dateRange, setDateRange] = useState<null | [Dayjs, Dayjs]>(null);
+    const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
     const [newTask, setNewTask] = useState<string>("");
     const [taskList, setTaskList] = useState<Todo[]>(acquiredData)
+    const [todoDueDate, setTodoDueDate] = useState<boolean>(false)
     const [taskStatus, setTaskStatus] = useState<string>("");
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [filtered, setFiltered] = useState<Todo[]>(acquiredData)
@@ -47,12 +45,6 @@ const TodoList = () => {
     //     backgroundColor: myChecked ? "gray" : "",
     //     opacity: myChecked ? "1" : ""
     // }
-    // console.log(dateRange)
-    // dayjs.extend(relativeTime);
-    // const date = dayjs().add(7, 'days')
-    // const relativeDate = date.fromNow();
-
-
     const taskProgress = countChecked / taskList.length * 100;
     const taskPercentage = Number(taskProgress.toFixed())
     const addTask1 = () => {
@@ -69,31 +61,42 @@ const TodoList = () => {
         }
         const myTask = {
             id: taskList.length === 0 ? 1 : taskList.length + 1,
+            //id: filtered.length === 0 ? 1 : filtered.length + 1,
             taskName: newTask,
             dueDate: "",
             isDone: false
         }
-        setFiltered([...taskList, myTask])
+        setTaskList([...taskList, myTask])
         setNewTask("")
         setIsModalOpen(false);
     };
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    // const chooseDate = () => {
+    //     setTodoDueDate(!todoDueDate)
+    // }
+    // Checkbox
 
     const addTask = (e: ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault()
         setNewTask(e.target.value)
     }
+
+    // const handleDelete = (id: number) => {
+    //     console.log(id)
+    //     const newArr = taskList.filter((item) => {
+    //         return id === item.id ? false : true
+    //     })
+    //     setTaskList(newArr)
+    // }
+
     useEffect(() => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
 
-    // useEffect(() => {
-    //     if (taskList) {
-    //         setFiltered(taskList)
-    //     }
-    // }, [taskList]);
+    console.log(taskList)
+    console.log(filtered)
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -118,7 +121,7 @@ const TodoList = () => {
                             <Col>
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
-                                    <Col>{countChecked}/ {taskList.length} tasks left</Col>
+                                    <Col>{countChecked}/ {filtered.length} tasks left</Col>
                                     <Progress percent={taskPercentage} size="small" />
                                 </div></Col>
                         </Col>
@@ -126,20 +129,19 @@ const TodoList = () => {
                             <Select
                                 value={taskStatus}
                                 style={{ width: 150 }}
+                                //defaultValue="All Tasks"
                                 onChange={newTaskStatus => {
                                     setTaskStatus(newTaskStatus)
                                     if (newTaskStatus === "Completed Tasks") {
                                         setFiltered(taskList.filter((current) => {
                                             return current.isDone === true
                                         }))
+
                                     }
 
                                     else if (newTaskStatus === "Pending Tasks") {
-                                        const newArr =[]
-                                        console.log(newTaskStatus)
                                         const p = taskList.filter((current) => {
-                                            console.log (newArr.push(current.isDone === false))
-                                            return newArr.push(current.isDone === false)
+                                            return current.isDone === false
                                         })
                                         setFiltered(p)
                                     }
@@ -149,7 +151,7 @@ const TodoList = () => {
                                 }}
 
                             >
-                                <Option key="allTask" value=""> All Tasks</Option>
+                                <Option key="allTask" value="All Tasks"> All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option value="overdueTasks"> Overdue Tasks</Option>
@@ -160,24 +162,18 @@ const TodoList = () => {
                         </Col>
                         <Modal className='modal' title="Add Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                             <Input type='text' onChange={addTask} value={newTask} placeholder='Enter Task...' />
-                            <Space direction="vertical" size={12}>
-                                {/* <RangePicker
-                                    onChange={(dayjsArr) => {
-                                        setDateRange(dayjsArr as null | [Dayjs, Dayjs])
-                                    }}
-                                /> */}
-                                {/* <RangePicker showTime /> */}
-                            </Space>
+                            {/* <input type='text' onChange={chooseDate} onClick={chooseDate} placeholder='Due date...' /> */}
+
                         </Modal>
                         {
                             filtered.sort((a, b) => b.id - a.id).map((item) => {
                                 return <Col>
-                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "", opacity: item.isDone ? "0.7" : "" }}>
+                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "" }}>
                                         <Col className='todos' key={item.id}>
                                             <Checkbox checked={item.isDone}
                                                 onChange={(e: CheckboxChangeEvent) => {
                                                     const newList: any = filtered.map(task => {
-                                                        if (task.id === item.id) {
+                                                        if (task.taskName === item.taskName) {
                                                             e.target.checked === true ? setCountChecked(countChecked + 1) : setCountChecked(countChecked - 1)
                                                             return {
                                                                 ...task,
@@ -194,17 +190,16 @@ const TodoList = () => {
                                                 }
                                             />
                                             <Col> {item.taskName}</Col>
-                                            {/* <Col>{dateRange ? dateRange[0].format("DD-MM-YYYY") + "-" +
-                                                dateRange[1].format("DD-MM-YYYY") : "Please pick a date"}</Col> */}
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
-                                                console.log(taskToDelete.taskName)
-                                                if (taskToDelete.taskName !== item.taskName) {
+
+                                                if (taskToDelete === "deleteTask") {
                                                     setFiltered(taskList.filter((deleteTask) => {
                                                         return deleteTask.taskName !== item.taskName
                                                     }))
                                                 }
+
                                             }}
                                         >
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>

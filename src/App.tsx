@@ -4,6 +4,7 @@ import { createContext } from 'react';
 import { todo } from './Interface';
 import TodoList from './pages/TodoList';
 import Tuts from './pages/Tuts';
+// import TodoList from './pages/TodoList2';
 
 
 export type todoType = {
