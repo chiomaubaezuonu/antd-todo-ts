@@ -73,7 +73,7 @@ const TodoList = () => {
             dueDate: "",
             isDone: false
         }
-        setFiltered([...taskList, myTask])
+        setTaskList([...taskList, myTask])
         setNewTask("")
         setIsModalOpen(false);
     };
