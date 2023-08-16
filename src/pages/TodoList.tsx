@@ -74,6 +74,7 @@ const TodoList = () => {
             isDone: false
         }
         setTaskList([...taskList, myTask])
+        setFiltered([...taskList, myTask])
         setNewTask("")
         setIsModalOpen(false);
     };
@@ -89,11 +90,10 @@ const TodoList = () => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
 
-    // useEffect(() => {
-    //     if (taskList) {
-    //         setFiltered(taskList)
-    //     }
-    // }, [taskList]);
+    useEffect(() => {
+      console.log("taskList", taskList)
+      console.log("filtered", filtered)
+    }, [taskList, filtered]);
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -135,11 +135,8 @@ const TodoList = () => {
                                     }
 
                                     else if (newTaskStatus === "Pending Tasks") {
-                                        const newArr =[]
-                                        console.log(newTaskStatus)
                                         const p = taskList.filter((current) => {
-                                            console.log (newArr.push(current.isDone === false))
-                                            return newArr.push(current.isDone === false)
+                                            return current.isDone === false
                                         })
                                         setFiltered(p)
                                     }
@@ -171,9 +168,9 @@ const TodoList = () => {
                         </Modal>
                         {
                             filtered.sort((a, b) => b.id - a.id).map((item) => {
-                                return <Col>
+                                return <Col key={item.id}>
                                     <Col className='todo-group' style={{ color: item.isDone ? "gray" : "", opacity: item.isDone ? "0.7" : "" }}>
-                                        <Col className='todos' key={item.id}>
+                                        <Col className='todos'>
                                             <Checkbox checked={item.isDone}
                                                 onChange={(e: CheckboxChangeEvent) => {
                                                     const newList: any = filtered.map(task => {
@@ -190,6 +187,7 @@ const TodoList = () => {
 
                                                     })
                                                     setFiltered(newList)
+                                                    setTaskList(newList)
                                                 }
                                                 }
                                             />
