@@ -19,8 +19,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 const data = localStorage.getItem('TODO_LIST')
 
 const acquiredData = data ? JSON.parse(data) : []
-
-
+ const countData = localStorage.getItem('Count')
+const cd =  countData ? JSON.parse(countData) : 0 
 type Todo = {
     id: number,
     taskName: string,
@@ -41,7 +41,7 @@ const TodoList = () => {
     const [taskStatus, setTaskStatus] = useState<string>("");
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [filtered, setFiltered] = useState<Todo[]>(acquiredData)
-    const [countChecked, setCountChecked] = useState<number>(0)
+    const [countChecked, setCountChecked] = useState<number>(cd)
 
     // const style = {
     //     backgroundColor: myChecked ? "gray" : "",
@@ -89,10 +89,14 @@ const TodoList = () => {
     useEffect(() => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
+    useEffect(() => {
+        localStorage.setItem('Count', JSON.stringify(countChecked))
+    }, [countChecked])
 
     useEffect(() => {
       console.log("taskList", taskList)
       console.log("filtered", filtered)
+      console.log(taskPercentage)
     }, [taskList, filtered]);
     return (
         <Row>
