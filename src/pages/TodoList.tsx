@@ -233,7 +233,7 @@ const TodoList = () => {
                                                 {item.dueDate?.format("dddd, Do MMMM YYYY")}
                                             </Col>
                                         </Col>
-                                        <Select style={{ width: "100px" }} bordered={false}
+                                        {/* <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
                                                 console.log(taskToDelete.taskName)
                                                 if (taskToDelete.taskName !== item.taskName) {
@@ -245,7 +245,8 @@ const TodoList = () => {
                                         >
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>
-                                        </Select>
+                                        </Select> */}
+                                        <Col style={{ color: "#00C297" }}>{">"}</Col>
                                     </Col>
                                     <hr className='todo-hr' />
 

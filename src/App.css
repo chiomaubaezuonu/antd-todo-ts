@@ -51,10 +51,13 @@
     justify-content: center;
     margin-bottom: 1rem;
 }
-
+/* span.anticon.anticon-down.ant-select-suffix{
+    background-color: red;
+    color:#00C297;
+} */
 .app-title {
-    font-size: 1.2rem;
-    margin-left: 1.7rem;
+    font-size: 1rem;
+    margin-left: 0.1rem;
     margin-top: 2rem;
 }
 
@@ -103,7 +106,7 @@ span.ant-select-selection-item {
 }
 
 .sitter {
-    width: 2rem;
+    width: 1.5rem;
 }
 
 .todo-group {
@@ -128,8 +131,6 @@ span.ant-select-selection-item {
     border-radius: 50%;
     margin-right: 0.6rem;
 }
-
-
 
 /* .ant-checkbox-input ::before {
     background-color: #294b6b;
