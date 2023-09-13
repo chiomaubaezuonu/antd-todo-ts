@@ -137,13 +137,13 @@ const TodoList = () => {
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
                                     <Col className='taskPercentage'>{countChecked}/ {taskList.length} tasks left</Col>
-                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage}  size="small" />
+                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage} size="small" />
                                 </div></Col>
                         </Col>
                         <hr className='todo-hr' />
                         <Col className='todo-btns' id="allTasks">
-                            <Select 
-                            //  id='ant-select-selector'
+                            <Select
+                                //  id='ant-select-selector'
                                 value={taskStatus}
                                 style={{ width: 150 }}
                                 onChange={newTaskStatus => {
@@ -190,7 +190,7 @@ const TodoList = () => {
                         {
                             filtered.sort((a, b) => b.id - a.id).map((item) => {
                                 return <Col key={item.id}>
-                                    <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
+                                    <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", borderRadius: item.isDone ? "" : '50%', opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
                                         <Col className='todos'>
                                             <Checkbox checked={item.isDone}
                                                 onChange={(e: CheckboxChangeEvent) => {
@@ -228,13 +228,10 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
+                                            <Col> {item.taskName}</Col>
                                             <Col>
                                                 {item.dueDate?.format("dddd, Do MMMM YYYY")}
-                                                {/* <p> dateRange ? dateRange[0].format("DD-MM-YYYY") : "Enter Date"</p> */}
                                             </Col>
-
-
-                                            <Col> {item.taskName}</Col>
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {

@@ -71,7 +71,7 @@
 .todo-btns {
     display: flex;
     justify-content: space-between;
-    padding: 2rem 0.8rem;
+    padding: 2rem 0;
 }
 
 .showTask-btn {
@@ -122,7 +122,7 @@ span.ant-select-selection-item {
     cursor: pointer;
 }
 
-.ant-checkbox-checked .ant-checkbox-inner{
+.ant-checkbox-checked .ant-checkbox-inner {
     background-color: #ACBAC7;
     border-color: #CAD3DB;
     border-radius: 50%;
