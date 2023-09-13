@@ -26,7 +26,7 @@ const cd = countData ? JSON.parse(countData) : 0
 type Todo = {
     id: number,
     taskName: string,
-    dueDate: string,
+    dueDate: null | Dayjs,
     isDone: boolean
 }
 export type propsType = {
@@ -34,10 +34,9 @@ export type propsType = {
     setTaskList: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 const TodoList = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    // const [dateRange, setDateRange] = useState<null | [Dayjs, Dayjs]>(null);
+    const [newTaskDate, setNewTaskDate] = useState<null | Dayjs>(null);
     const [newTask, setNewTask] = useState<string>("");
     const [taskList, setTaskList] = useState<Todo[]>(acquiredData)
     const [taskStatus, setTaskStatus] = useState<string>("");
@@ -65,26 +64,16 @@ const TodoList = () => {
     const showModal = () => {
         setIsModalOpen(true);
     };
-
-    const handleOk = () => {
-        if (newTask === "") {
-            return ""
-        }
-        const myTask = {
-            id: taskList.length === 0 ? 1 : taskList.length + 1,
-            taskName: newTask,
-            dueDate: "",
-            isDone: false
-        }
-        const newTaskList = [...taskList, myTask]
+    function generateFilteredTask(newTaskList: Todo[], newTaskStatus: string) {
         setTaskList(newTaskList)
-        if (taskStatus === "Completed Tasks") {
+        setTaskStatus(newTaskStatus)
+        if (newTaskStatus === "Completed Tasks") {
             setFiltered(newTaskList.filter((current) => {
                 return current.isDone === true
             }))
         }
 
-        else if (taskStatus === "Pending Tasks") {
+        else if (newTaskStatus === "Pending Tasks") {
             const p = newTaskList.filter((current) => {
                 return current.isDone === false
             })
@@ -93,9 +82,24 @@ const TodoList = () => {
         else {
             setFiltered(newTaskList)
         }
+    };
+    const handleOk = () => {
+        if (newTask === "") {
+            return ""
+        }
+        const myTask = {
+            id: taskList.length === 0 ? 1 : taskList.length + 1,
+            taskName: newTask,
+            dueDate: newTaskDate,
+            isDone: false
+        }
+        const newTaskList = [...taskList, myTask]
+
         setNewTask("")
         setIsModalOpen(false);
-    };
+        generateFilteredTask(newTaskList, taskStatus)
+    }
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -107,6 +111,7 @@ const TodoList = () => {
     useEffect(() => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
+    let todoDate: Date = new Date()
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -127,37 +132,38 @@ const TodoList = () => {
                     </Col>
                     <Col className='todoList'>
                         <Col className='progressBar'>
-                            <Title level={2} id='taskList-title'>Task List</Title>
+                            <Title level={5} id='taskList-title'>Task List</Title>
                             <Col>
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
-                                    <Col>{countChecked}/ {taskList.length} tasks left</Col>
-                                    <Progress percent={taskPercentage} size="small" />
+                                    <Col className='taskPercentage'>{countChecked}/ {taskList.length} tasks left</Col>
+                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage}  size="small" />
                                 </div></Col>
                         </Col>
-                        <Col className='todo-btns'>
-                            <Select
+                        <hr className='todo-hr' />
+                        <Col className='todo-btns' id="allTasks">
+                            <Select 
+                            //  id='ant-select-selector'
                                 value={taskStatus}
                                 style={{ width: 150 }}
                                 onChange={newTaskStatus => {
                                     setTaskStatus(newTaskStatus)
-                                    if (newTaskStatus === "Completed Tasks") {
-                                        setFiltered(taskList.filter((current) => {
-                                            return current.isDone === true
-                                        }))
-                                    }
-
-                                    else if (newTaskStatus === "Pending Tasks") {
-                                        const p = taskList.filter((current) => {
-                                            return current.isDone === false
-                                        })
-                                        setFiltered(p)
-                                    }
-                                    else {
-                                        setFiltered(taskList)
-                                    }
+                                    generateFilteredTask(taskList, newTaskStatus)
+                                    // if (newTaskStatus === "Completed Tasks") {
+                                    //     setFiltered(taskList.filter((current) => {
+                                    //         return current.isDone === true
+                                    //     }))
+                                    // }
+                                    // else if (newTaskStatus === "Pending Tasks") {
+                                    //     const p = taskList.filter((current) => {
+                                    //         return current.isDone === false
+                                    //     })
+                                    //     setFiltered(p)
+                                    // }
+                                    // else {
+                                    //     setFiltered(taskList)
+                                    // }
                                 }}
-
                             >
                                 <Option key="allTask" value=""> All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
@@ -168,20 +174,23 @@ const TodoList = () => {
                                 + Add a task
                             </Button>
                         </Col>
+                        <hr className='todo-hr' />
                         <Modal className='modal' title="Add Task" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                             <Input type='text' onChange={addTask} value={newTask} placeholder='Enter Task...' />
                             <Space direction="vertical" size={12}>
-                                <RangePicker
-                                // onChange={(dayjsArr) => {
-                                //     setDateRange(dayjsArr as null | [Dayjs, Dayjs])
-                                // }}
+                                <DatePicker
+                                    //  format={"DD MM YYYY"}
+                                    value={newTaskDate}
+                                    onChange={(dayjsArr) => {
+                                        setNewTaskDate(dayjsArr as null | Dayjs)
+                                    }}
                                 />
                             </Space>
                         </Modal>
                         {
                             filtered.sort((a, b) => b.id - a.id).map((item) => {
                                 return <Col key={item.id}>
-                                    <Col className='todo-group' style={{ color: item.isDone ? "gray" : "", opacity: item.isDone ? "0.7" : "" }}>
+                                    <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
                                         <Col className='todos'>
                                             <Checkbox checked={item.isDone}
                                                 onChange={(e: CheckboxChangeEvent) => {
@@ -199,28 +208,33 @@ const TodoList = () => {
 
                                                     })
                                                     setTaskList(newList)
-                                                    if (taskStatus === "Completed Tasks") {
-                                                        setFiltered(newList.filter((current) => {
-                                                            return current.isDone === true
-                                                        }))
-                                                    }
+                                                    generateFilteredTask(newList, taskStatus)
+                                                    // if (taskStatus === "Completed Tasks") {
+                                                    //     setFiltered(newList.filter((current) => {
+                                                    //         return current.isDone === true
+                                                    //     }))
+                                                    // }
 
-                                                    else if (taskStatus === "Pending Tasks") {
-                                                        const p = newList.filter((current) => {
-                                                            return current.isDone === false
-                                                        })
-                                                        setFiltered(p)
-                                                    }
-                                                    else {
-                                                        setFiltered(newList)
-                                                    }
+                                                    // else if (taskStatus === "Pending Tasks") {
+                                                    //     const p = newList.filter((current) => {
+                                                    //         return current.isDone === false
+                                                    //     })
+                                                    //     setFiltered(p)
+                                                    // }
+                                                    // else {
+                                                    //     setFiltered(newList)
+                                                    // }
 
                                                 }
                                                 }
                                             />
+                                            <Col>
+                                                {item.dueDate?.format("dddd, Do MMMM YYYY")}
+                                                {/* <p> dateRange ? dateRange[0].format("DD-MM-YYYY") : "Enter Date"</p> */}
+                                            </Col>
+
+
                                             <Col> {item.taskName}</Col>
-                                            {/* <Col>{dateRange ? dateRange[0].format("DD-MM-YYYY") + "-" +
-                                                dateRange[1].format("DD-MM-YYYY") : "Please pick a date"}</Col> */}
                                         </Col>
                                         <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
@@ -236,7 +250,7 @@ const TodoList = () => {
                                             <Option value="deleteTask">Delete</Option>
                                         </Select>
                                     </Col>
-                                    <hr />
+                                    <hr className='todo-hr' />
 
                                 </Col>
                             })
@@ -245,9 +259,28 @@ const TodoList = () => {
                     </Col>
                 </Col>
             }
-        </Row>
+        </Row >
     )
 }
 
 export default TodoList
- // return deleteTask.taskName === item.taskName ? false : true
+// return deleteTask.taskName === item.taskName ? false : true
+//Put back under where newTaskList was defined
+// function generateFilteredTask(newTaskList: Todo[], newTaskStatus: string) {
+//     setTaskList(newTaskList)
+//     setTaskStatus(newTaskStatus)
+//     if (taskStatus === "Completed Tasks") {
+//         setFiltered(newTaskList.filter((current) => {
+//             return current.isDone === true
+//         }))
+//     }
+//     else if (taskStatus === "Pending Tasks") {
+//         const p = newTaskList.filter((current) => {
+//             return current.isDone === false
+//         })
+//         setFiltered(p)
+//     }
+//     else {
+//         setFiltered(newTaskList)
+//     }
+// };
