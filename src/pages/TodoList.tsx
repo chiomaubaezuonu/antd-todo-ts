@@ -228,9 +228,9 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
-                                            <Col> {item.taskName}</Col>
+                                            <Col style={{paddingRight:"0.5rem"}}> {item.taskName}</Col>
                                             <Col>
-                                                {item.dueDate?.format("dddd, Do MMMM YYYY")}
+                                                {item.dueDate?.format("ddd, Do MMM YYYY")}
                                             </Col>
                                         </Col>
                                         {/* <Select style={{ width: "100px" }} bordered={false}

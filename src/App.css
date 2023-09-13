@@ -68,7 +68,6 @@
     padding: 1rem;
     margin: auto;
     box-shadow: 0 0 0.3rem 0.1rem #F3F4F6;
-    background-color: darkblue;
 }
 
 .todo-btns {
@@ -181,6 +180,11 @@ span.ant-select-selection-item {
 
     .todoList {
         width: 100%;
+        margin-left: 0.8rem;
+        margin-right: 0.8rem;
+    }
+    .todo-group{
+        padding: 0.5rem;
     }
 }
 
