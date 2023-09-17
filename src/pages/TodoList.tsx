@@ -54,7 +54,6 @@ const TodoList = () => {
     // const date = dayjs().add(7, 'days')
     // const relativeDate = date.fromNow();
     //let countCheck = localStorage.getItem(Number(count))
-
     const taskProgress = countChecked / taskList.length * 100;
     const taskPercentage = Number(taskProgress.toFixed())
     const addTask1 = () => {
@@ -112,6 +111,10 @@ const TodoList = () => {
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
     let todoDate: Date = new Date()
+    const taskDueDate = newTaskDate && newTaskDate.toISOString()
+    const newDate = taskDueDate && new Date(taskDueDate)
+    console.log(newDate)
+    //const dateFormat = newDate && newDate.format("ddd, Do MMM YYYY")
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -137,6 +140,7 @@ const TodoList = () => {
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
                                     <Col className='taskPercentage'>{countChecked}/ {taskList.length} tasks left</Col>
+                                    <Col>{""}</Col>
                                     <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage} size="small" />
                                 </div></Col>
                         </Col>
@@ -228,10 +232,13 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
-                                            <Col style={{paddingRight:"0.5rem"}}> {item.taskName}</Col>
+                                            <Col style={{ paddingRight: "0.5rem" }}> {item.taskName}</Col>
                                             <Col>
-                                                {item.dueDate?.format("ddd, Do MMM YYYY")}
+                                            {newDate ? newDate .valueOf(): ""}
+                                                {/* {item.dueDate?.format("ddd, Do MMM YYYY")} */}
+                                                {/* {taskDueDate ? new Date(taskDueDate) : ""} */}
                                             </Col>
+                                            <p></p>
                                         </Col>
                                         {/* <Select style={{ width: "100px" }} bordered={false}
                                             onChange={(taskToDelete) => {
