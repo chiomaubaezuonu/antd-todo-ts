@@ -234,22 +234,13 @@ const TodoList = () => {
                                             />
                                             <Col style={{ paddingRight: "0.5rem" }}> {item.taskName}</Col>
                                             <Col>
-                                            {newDate ? newDate .valueOf(): ""}
+                                                {/* {dayjs(item.dueDate).format('ddd, Do MMM YYYY')} */}
                                                 {/* {item.dueDate?.format("ddd, Do MMM YYYY")} */}
-                                                {/* {taskDueDate ? new Date(taskDueDate) : ""} */}
+
                                             </Col>
                                             <p></p>
                                         </Col>
-                                        {/* <Select style={{ width: "100px" }} bordered={false}
-                                            onChange={(taskToDelete) => {
-                                                console.log(taskToDelete.taskName)
-                                                if (taskToDelete.taskName !== item.taskName) {
-                                                    setFiltered(taskList.filter((deleteTask) => {
-                                                        return deleteTask.taskName !== item.taskName
-                                                    }))
-                                                }
-                                            }}
-                                        >
+                                        {/* <Select style={{ width: "100px" }} bordered={false}>
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>
                                         </Select> */}
