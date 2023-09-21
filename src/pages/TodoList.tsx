@@ -19,7 +19,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 const data = localStorage.getItem('TODO_LIST')
 
 const acquiredData = data ? JSON.parse(data) : []
-
 const countData = localStorage.getItem('Count')
 const cd = countData ? JSON.parse(countData) : 0
 
@@ -108,13 +107,16 @@ const TodoList = () => {
         setNewTask(e.target.value)
     }
     useEffect(() => {
+        // taskList.map((eachTask) => {
+        //     if (eachTask.dueDate) {
+        //         return {
+        //             ...eachTask,
+        //             dueDate: eachTask.dueDate?.toISOString()
+        //         }
+        //     }
+        // })
         localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
     }, [taskList])
-    let todoDate: Date = new Date()
-    const taskDueDate = newTaskDate && newTaskDate.toISOString()
-    const newDate = taskDueDate && new Date(taskDueDate)
-    console.log(newDate)
-    //const dateFormat = newDate && newDate.format("ddd, Do MMM YYYY")
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -234,7 +236,8 @@ const TodoList = () => {
                                             />
                                             <Col style={{ paddingRight: "0.5rem" }}> {item.taskName}</Col>
                                             <Col>
-                                                {/* {dayjs(item.dueDate).format('ddd, Do MMM YYYY')} */}
+                                                {/* {new Date(item.dueDate).format("ddd MMM YYYY")} */}
+                                                {dayjs(item.dueDate).format('ddd, Do MMM YYYY')}
                                                 {/* {item.dueDate?.format("ddd, Do MMM YYYY")} */}
 
                                             </Col>
