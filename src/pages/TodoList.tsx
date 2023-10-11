@@ -15,18 +15,22 @@ import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 
-
 const data = localStorage.getItem('TODO_LIST')
+//  const taskIsoStringConvertedToDayjs;
+let acquiredData = data ? JSON.parse(data) : []
+acquiredData = acquiredData.map((eachTaskDate: any) => {
+    return {
+        ...eachTaskDate,
+        dueDate: eachTaskDate.dueDate ? dayjs(eachTaskDate.dueDate) : ""
+    }
+})
 
-const acquiredData = data ? JSON.parse(data) : []
-const countData = localStorage.getItem('Count')
-const cd = countData ? JSON.parse(countData) : 0
 
 type Todo = {
     id: number,
     taskName: string,
     dueDate: null | Dayjs,
-    isDone: boolean
+    isDone: boolean,
 }
 export type propsType = {
     taskList: string,
@@ -34,6 +38,14 @@ export type propsType = {
 }
 const { Option } = Select;
 const TodoList = () => {
+
+
+
+    const TodoPercentage = localStorage.getItem('TODO_PERCENTAGE')
+    const savedTodoPercentage = TodoPercentage ? JSON.parse(TodoPercentage) : ""
+    //let savedDataPercent = dataPercent ? JSON.parse(dataPercent) : 0;
+    const data1 = localStorage.getItem('COUNT')
+    const data2 = data1 ? JSON.parse(data1) : ""
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [newTaskDate, setNewTaskDate] = useState<null | Dayjs>(null);
     const [newTask, setNewTask] = useState<string>("");
@@ -41,20 +53,23 @@ const TodoList = () => {
     const [taskStatus, setTaskStatus] = useState<string>("");
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [filtered, setFiltered] = useState<Todo[]>(acquiredData)
-    const [countChecked, setCountChecked] = useState<number>(cd)
-    // const [percent, setPercent]  = useState(localStorage.getItem(Number(countChecked/taskList.length)))
+    const [countChecked, setCountChecked] = useState<number>(0)
+    let countNum = 0
+    countNum = data2
+    const [count, setCount] = useState(countNum)
+
+    const taskProgress = countChecked / taskList.length * 100;
+    let taskPercentage = Number(taskProgress.toFixed())
+    taskPercentage = savedTodoPercentage
+    const [taskPercent, setTaskPercent] = useState(taskPercentage)
+
 
     // const style = {
     //     backgroundColor: myChecked ? "gray" : "",
     //     opacity: myChecked ? "1" : ""
     // }
-    // console.log(dateRange)
-    // dayjs.extend(relativeTime);
-    // const date = dayjs().add(7, 'days')
-    // const relativeDate = date.fromNow();
-    //let countCheck = localStorage.getItem(Number(count))
-    const taskProgress = countChecked / taskList.length * 100;
-    const taskPercentage = Number(taskProgress.toFixed())
+
+
     const addTask1 = () => {
         setTodoPage(true)
         setIsModalOpen(true)
@@ -72,10 +87,19 @@ const TodoList = () => {
         }
 
         else if (newTaskStatus === "Pending Tasks") {
-            const p = newTaskList.filter((current) => {
+            const pendingTasks = newTaskList.filter((current) => {
                 return current.isDone === false
             })
-            setFiltered(p)
+            setFiltered(pendingTasks)
+        }
+        else if (newTaskStatus === "Overdue Tasks") {
+            const taskDate = new Date()
+            const overdueTasks = newTaskList.filter((current) => {
+                let currentTaskDateIsoString: string | undefined = current.dueDate?.toISOString();
+                let newDateIsoString = taskDate.toISOString()
+                return current.isDone === false && currentTaskDateIsoString ? currentTaskDateIsoString < newDateIsoString : ""
+            })
+            setFiltered(overdueTasks)
         }
         else {
             setFiltered(newTaskList)
@@ -107,16 +131,35 @@ const TodoList = () => {
         setNewTask(e.target.value)
     }
     useEffect(() => {
-        // taskList.map((eachTask) => {
-        //     if (eachTask.dueDate) {
-        //         return {
-        //             ...eachTask,
-        //             dueDate: eachTask.dueDate?.toISOString()
-        //         }
-        //     }
-        // })
-        localStorage.setItem('TODO_LIST', JSON.stringify(taskList))
+        const taskListWithIsoString = taskList.map((eachTask) => {
+            return {
+                ...eachTask,
+                dueDate: eachTask.dueDate ? eachTask.dueDate.toISOString() : ""
+            }
+        })
+        localStorage.setItem('TODO_LIST', JSON.stringify(taskListWithIsoString))
     }, [taskList])
+    // useEffect(() => {
+    //     localStorage.setItem('TODO_PERCENTAGE', JSON.stringify(taskPercent))
+    // }, [taskPercent])
+    // useEffect(() => {
+    //     localStorage.setItem('TODO_PERCENTAGE', JSON.stringify(taskPercent))
+    // }, [taskPercent])
+    // function func(taskList: Todo[]) {
+    //     if (taskList) {
+    //         setTaskList(taskList.sort((a: any, b: any): any => {
+    //             console.log(a.dueDate - b.dueDate)
+    //         }))
+    //     }
+    // }
+    // console.log(func(taskList))
+    useEffect(() => {
+        localStorage.setItem('TASK_PERCENT', JSON.stringify(taskPercent))
+    }, [taskPercent])
+
+    useEffect(() => {
+        localStorage.setItem('COUNT', JSON.stringify(count))
+    }, [count])
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -143,7 +186,8 @@ const TodoList = () => {
                                 <div style={{ width: 170 }}>
                                     <Col className='taskPercentage'>{countChecked}/ {taskList.length} tasks left</Col>
                                     <Col>{""}</Col>
-                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage} size="small" />
+                                    {/* <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage} size="small" /> */}
+                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercent} size="small" />
                                 </div></Col>
                         </Col>
                         <hr className='todo-hr' />
@@ -174,7 +218,7 @@ const TodoList = () => {
                                 <Option key="allTask" value=""> All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
-                                <Option value="overdueTasks"> Overdue Tasks</Option>
+                                <Option key="overdueTasks" value="Overdue Tasks"> Overdue Tasks</Option>
                             </Select>
                             <Button type="primary" className='addTask-btn' onClick={showModal}>
                                 + Add a task
@@ -236,13 +280,15 @@ const TodoList = () => {
                                             />
                                             <Col style={{ paddingRight: "0.5rem" }}> {item.taskName}</Col>
                                             <Col>
+                                                {item.dueDate?.format("ddd, Do MMM YYYY")}
                                                 {/* {new Date(item.dueDate).format("ddd MMM YYYY")} */}
-                                                {dayjs(item.dueDate).format('ddd, Do MMM YYYY')}
                                                 {/* {item.dueDate?.format("ddd, Do MMM YYYY")} */}
 
                                             </Col>
                                             <p></p>
                                         </Col>
+                                        <Progress percent={count}></Progress>
+                                        <Button onClick={() => { setCount(count + 1) }} >Add</Button>
                                         {/* <Select style={{ width: "100px" }} bordered={false}>
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>
