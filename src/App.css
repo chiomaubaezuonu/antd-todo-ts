@@ -40,7 +40,6 @@
 }
 
 .todoPage-container {
-    /* background-color: rgb(245, 249, 253); */
     background-color: #FAFBFC;
     padding: 1.4rem;
     height: 100vh;
@@ -131,15 +130,8 @@ span.ant-select-selection-item {
     margin-right: 0.6rem;
 }
 
-/* .ant-checkbox-input ::before {
-    background-color: #294b6b;
-    border-color: #CAD3DB;
-    border-radius: 50%;
-    margin-right: 0.6rem;
 
-} */
-
-*/ .taskPercentage {
+ .taskPercentage {
     font-size: 0.7rem;
     padding-top: 1rem;
     margin-bottom: 0;
