@@ -100,6 +100,7 @@ const TodoList = () => {
                 return current.isDone === false && currentTaskDateIsoString ? currentTaskDateIsoString < newDateIsoString : ""
             })
             setFiltered(overdueTasks)
+            
         }
         else {
             setFiltered(newTaskList)
