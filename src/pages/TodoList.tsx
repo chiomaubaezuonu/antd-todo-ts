@@ -196,7 +196,7 @@ const TodoList = () => {
                             <Select
                                 //  id='ant-select-selector'
                                 value={taskStatus}
-                                style={{ width: 150 }}
+                                className='selectBar'
                                 onChange={newTaskStatus => {
                                     setTaskStatus(newTaskStatus)
                                     generateFilteredTask(taskList, newTaskStatus)
@@ -216,7 +216,7 @@ const TodoList = () => {
                                     // }
                                 }}
                             >
-                                <Option key="allTask" value=""> Show All Tasks</Option>
+                                <Option key="allTask" value="" style={{background:"orange"}}> Show All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option key="overdueTasks" value="Overdue Tasks"> Overdue Tasks</Option>

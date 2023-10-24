@@ -50,6 +50,7 @@
     justify-content: center;
     margin-bottom: 1rem;
 }
+
 /* span.anticon.anticon-down.ant-select-suffix{
     background-color: red;
     color:#00C297;
@@ -75,6 +76,8 @@
     display: flex;
     justify-content: space-between;
     padding: 2rem 0;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
 }
 
 .showTask-btn {
@@ -83,14 +86,14 @@
     border: 0.1rem solid rgb(244, 243, 243);
 }
 
-#allTasks {
+/* #allTasks {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
-}
-.taskName{
+} */
+.taskName {
     padding-right: 0.5rem;
     padding-left: 0.2rem;
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     font-weight: 500
 }
 
@@ -140,13 +143,18 @@ span.ant-select-selection-item {
 }
 
 
- .taskPercentage {
+.taskPercentage {
     font-size: 0.7rem;
     padding-top: 1rem;
     margin-bottom: 0;
 }
-.taskDueDate{
+
+.taskDueDate {
     font-size: 0.8rem;
+}
+
+.selectBar {
+    width: 150
 }
 
 @media (max-width: 768px) {
@@ -170,7 +178,6 @@ span.ant-select-selection-item {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: plum;
     }
 
     .todo-btns {
@@ -186,7 +193,8 @@ span.ant-select-selection-item {
         margin-left: 0.8rem;
         margin-right: 0.8rem;
     }
-    .todo-group{
+
+    .todo-group {
         padding: 0.5rem;
     }
 }
@@ -201,15 +209,18 @@ span.ant-select-selection-item {
     }
 
     .todo-btns {
-        padding: 0;
+        padding: 0.3rem 0rem;
     }
-    .taskName{
-        font-weight: normal; 
+
+    .taskName {
+        font-weight: normal;
     }
-    .homePage-title.level5{
+
+    .homePage-title.level5 {
         text-align: center;
         font-size: 1rem;
     }
+
     #taskList-title {
         display: none;
     }
@@ -220,6 +231,16 @@ span.ant-select-selection-item {
         padding-top: 2rem;
     }
 
+    .addTask-btn {
+        padding: 0.4rem 0.7rem;
+        text-align: center;
+    }
+    span.ant-select-selection-item {
+        background-color: blue;
+    }
+ant-select-selector{
+    background: lime;
+}
     .modal {
         width: 100%;
         padding: 0;
