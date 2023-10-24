@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import sitter from "../images/sitter.png"
 import { Button, Checkbox, Col, Input, DatePicker, Modal, Row, Select, Space, Progress, Switch } from 'antd';
 //ngimport { todo } from '../Interface';
@@ -25,7 +25,6 @@ acquiredData = acquiredData.map((eachTaskDate: any) => {
     }
 })
 
-
 type Todo = {
     id: number,
     taskName: string,
@@ -38,14 +37,6 @@ export type propsType = {
 }
 const { Option } = Select;
 const TodoList = () => {
-
-
-
-    const TodoPercentage = localStorage.getItem('TODO_PERCENTAGE')
-    const savedTodoPercentage = TodoPercentage ? JSON.parse(TodoPercentage) : ""
-    //let savedDataPercent = dataPercent ? JSON.parse(dataPercent) : 0;
-    const data1 = localStorage.getItem('COUNT')
-    const data2 = data1 ? JSON.parse(data1) : ""
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [newTaskDate, setNewTaskDate] = useState<null | Dayjs>(null);
     const [newTask, setNewTask] = useState<string>("");
@@ -54,20 +45,43 @@ const TodoList = () => {
     const [todoPage, setTodoPage] = useState<boolean>(false);
     const [filtered, setFiltered] = useState<Todo[]>(acquiredData)
     const [countChecked, setCountChecked] = useState<number>(0)
-    let countNum = 0
-    countNum = data2
-    const [count, setCount] = useState(countNum)
-
-    const taskProgress = countChecked / taskList.length * 100;
-    let taskPercentage = Number(taskProgress.toFixed())
-    taskPercentage = savedTodoPercentage
-    const [taskPercent, setTaskPercent] = useState(taskPercentage)
-
-
+    // const [checkedTasks, setCheckedTasks] = useState<Todo[]>([])
+    // const [completedTodoPercentage, setCompletedTodoPercentage] = useState(0)
     // const style = {
     //     backgroundColor: myChecked ? "gray" : "",
     //     opacity: myChecked ? "1" : ""
     // }
+
+    //Option 3
+    const checkedTasks = useMemo(() => {
+        const newCheckedTasks = taskList.filter((eachTask) => {
+            return eachTask.isDone === true
+        })
+        return newCheckedTasks
+
+    }, [taskList])
+
+    const checkedTasksPercentage = useMemo(() => {
+        let checkedTodoPercentage = checkedTasks.length / taskList.length * 100;
+        return checkedTodoPercentage = Number(checkedTodoPercentage.toFixed())
+    }, [taskList, checkedTasks])
+
+    //Option 2
+    // useEffect(() => {
+    //     const newCheckedTasks = taskList.filter((eachTask) => {
+    //         return eachTask.isDone === true
+    //     })
+    //     setCheckedTasks(newCheckedTasks)
+    //     let checkedTodoPercentage = newCheckedTasks.length / taskList.length * 100;
+    //     setCompletedTodoPercentage(Number(checkedTodoPercentage.toFixed()))
+    // }, [taskList])
+
+    //Option 1
+    // let checkedTasks = taskList.filter((eachTask: any) => {
+    //     return eachTask.isDone === true
+    // })
+    // let completedTodoPercentage = checkedTasks.length / taskList.length * 100;
+    // completedTodoPercentage = Number(completedTodoPercentage.toFixed())
 
 
     const addTask1 = () => {
@@ -100,7 +114,7 @@ const TodoList = () => {
                 return current.isDone === false && currentTaskDateIsoString ? currentTaskDateIsoString < newDateIsoString : ""
             })
             setFiltered(overdueTasks)
-            
+
         }
         else {
             setFiltered(newTaskList)
@@ -143,24 +157,10 @@ const TodoList = () => {
     // useEffect(() => {
     //     localStorage.setItem('TODO_PERCENTAGE', JSON.stringify(taskPercent))
     // }, [taskPercent])
-    // useEffect(() => {
-    //     localStorage.setItem('TODO_PERCENTAGE', JSON.stringify(taskPercent))
-    // }, [taskPercent])
-    // function func(taskList: Todo[]) {
-    //     if (taskList) {
-    //         setTaskList(taskList.sort((a: any, b: any): any => {
-    //             console.log(a.dueDate - b.dueDate)
-    //         }))
-    //     }
-    // }
-    // console.log(func(taskList))
-    useEffect(() => {
-        localStorage.setItem('TASK_PERCENT', JSON.stringify(taskPercent))
-    }, [taskPercent])
 
-    useEffect(() => {
-        localStorage.setItem('COUNT', JSON.stringify(count))
-    }, [count])
+    //
+
+
     return (
         <Row>
             {!todoPage && taskList.length === 0 ?
@@ -185,10 +185,10 @@ const TodoList = () => {
                             <Col>
                                 {/* <Col style={{ color: "gray" }}>  Task completed {countChecked + "/" + taskList.length}</Col> */}
                                 <div style={{ width: 170 }}>
-                                    <Col className='taskPercentage'>{countChecked}/ {taskList.length} tasks left</Col>
+                                    <Col className='taskPercentage'>{checkedTasks.length}/ {taskList.length} tasks left</Col>
                                     <Col>{""}</Col>
                                     {/* <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercentage} size="small" /> */}
-                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={taskPercent} size="small" />
+                                    <Progress className='progress' trailColor='#ECF0F6' strokeColor="#718391" percent={checkedTasksPercentage} size="small" />
                                 </div></Col>
                         </Col>
                         <hr className='todo-hr' />
@@ -216,7 +216,7 @@ const TodoList = () => {
                                     // }
                                 }}
                             >
-                                <Option key="allTask" value=""> All Tasks</Option>
+                                <Option key="allTask" value=""> Show All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option key="overdueTasks" value="Overdue Tasks"> Overdue Tasks</Option>
@@ -288,8 +288,6 @@ const TodoList = () => {
                                             </Col>
                                             <p></p>
                                         </Col>
-                                        <Progress percent={count}></Progress>
-                                        <Button onClick={() => { setCount(count + 1) }} >Add</Button>
                                         {/* <Select style={{ width: "100px" }} bordered={false}>
                                             <Option key="completedTasks" value="completedTasks">Due Date</Option>
                                             <Option value="deleteTask">Delete</Option>

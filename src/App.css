@@ -57,7 +57,9 @@
 .app-title {
     font-size: 1rem;
     margin-left: 0.1rem;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .todoList {
@@ -92,8 +94,9 @@
 }
 
 .addTask-btn {
-    padding: 0.05rem 1.5rem;
+    padding: 0.03rem 1.5rem;
     background-color: #00C297;
+    margin-right: 3.55rem;
     border-radius: 0.3rem;
     font-size: 0.7rem;
 }
@@ -104,7 +107,7 @@ span.ant-select-selection-item {
 }
 
 .sitter {
-    width: 1.5rem;
+    width: rem;
 }
 
 .todo-group {
