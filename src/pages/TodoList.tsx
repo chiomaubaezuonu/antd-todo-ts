@@ -230,7 +230,6 @@ const TodoList = () => {
                             <Input type='text' onChange={addTask} value={newTask} placeholder='Enter Task...' />
                             <Space direction="vertical" size={12}>
                                 <DatePicker
-                                    //  format={"DD MM YYYY"}
                                     value={newTaskDate}
                                     onChange={(dayjsArr) => {
                                         setNewTaskDate(dayjsArr as null | Dayjs)
@@ -239,8 +238,8 @@ const TodoList = () => {
                             </Space>
                         </Modal>
                         {
-                            // filtered.sort((a, b) => b.id - a.id).map((item) => {
-                            filtered.map((item) => {
+                             filtered.sort((a, b) => a.id - b.id).map((item) => {
+                            // filtered.map((item) => {
                                 return <Col key={item.id}>
                                     <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", borderRadius: item.isDone ? "" : '50%', opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
                                         <Col className='todos'>
@@ -280,7 +279,7 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
-                                            <Col style={{ paddingRight: "0.5rem" }}> {item.taskName}</Col>
+                                            <Col style={{ paddingRight: "0.5rem", fontSize: "0.8rem"}}> {item.taskName}</Col>
                                             <Col>
                                                 {item.dueDate?.format("ddd, Do MMM YYYY")}
                                                 {/* {new Date(item.dueDate).format("ddd MMM YYYY")} */}
