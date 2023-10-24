@@ -239,7 +239,8 @@ const TodoList = () => {
                             </Space>
                         </Modal>
                         {
-                            filtered.sort((a, b) => b.id - a.id).map((item) => {
+                            // filtered.sort((a, b) => b.id - a.id).map((item) => {
+                            filtered.map((item) => {
                                 return <Col key={item.id}>
                                     <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", borderRadius: item.isDone ? "" : '50%', opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
                                         <Col className='todos'>
