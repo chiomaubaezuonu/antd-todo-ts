@@ -166,7 +166,7 @@ const TodoList = () => {
             {!todoPage && taskList.length === 0 ?
                 <Col span={24} className='noTask-wrapper'>
                     <img src={noTask} className='home-img' alt='no-task-img' />
-                    <Title className='homePage-title'>No task yet!! Please add a task</Title>
+                    <Title className='homePage-title level5'>No task yet!! Please add a task</Title>
                     <Col>
                         <Button className='modal-btn' onClick={addTask1} type="primary">
                             Add task
@@ -279,8 +279,8 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
-                                            <Col style={{ paddingRight: "0.5rem", paddingLeft: "0.2rem" ,fontSize: "0.8rem", fontWeight: "500"}}> {item.taskName}</Col>
-                                            <Col>
+                                            <Col className='taskName'> {item.taskName}</Col>
+                                            <Col className='taskDueDate mini-font'>
                                                 {item.dueDate?.format("ddd, Do MMM YYYY")}
                                                 {/* {new Date(item.dueDate).format("ddd MMM YYYY")} */}
                                                 {/* {item.dueDate?.format("ddd, Do MMM YYYY")} */}
