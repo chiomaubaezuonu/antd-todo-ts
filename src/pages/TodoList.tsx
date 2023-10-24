@@ -279,7 +279,7 @@ const TodoList = () => {
                                                 }
                                                 }
                                             />
-                                            <Col style={{ paddingRight: "0.5rem", fontSize: "0.8rem"}}> {item.taskName}</Col>
+                                            <Col style={{ paddingRight: "0.5rem", paddingLeft: "0.25rem" ,fontSize: "0.8rem"}}> {item.taskName}</Col>
                                             <Col>
                                                 {item.dueDate?.format("ddd, Do MMM YYYY")}
                                                 {/* {new Date(item.dueDate).format("ddd MMM YYYY")} */}
