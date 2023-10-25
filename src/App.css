@@ -23,10 +23,7 @@
 
 .modal {
     padding: 4rem;
-}
-
-.modal-btn {
-    /* margin-right: 2rem; */
+    margin-top: 4rem;
 }
 
 .progressBar {
@@ -211,7 +208,9 @@ span.ant-select-selection-item {
     .todo-btns {
         padding: 0.3rem 0rem;
     }
-
+.modal{
+    margin-top: 9rem;
+}
     /* .modal-btn {
         padding: 0.7rem 1.5rem;
         text-align: center;
@@ -220,9 +219,9 @@ span.ant-select-selection-item {
         margin-right: 0;
     } */
 
-    .homePage-title.level5{
+    .homePage-title.level5 {
         text-align: center;
-        font-size: 2rem; 
+        font-size: 2rem;
     }
 
     .taskName {
