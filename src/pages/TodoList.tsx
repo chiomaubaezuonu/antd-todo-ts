@@ -167,8 +167,8 @@ const TodoList = () => {
                 <Col span={24} className='noTask-wrapper'>
                     <img src={noTask} className='home-img' alt='no-task-img' />
                     <Title className='homePage-title level5'>No task yet!! Please add a task</Title>
-                    <Col>
-                        <Button className='modal-btn' onClick={addTask1} type="primary">
+                        <Col>
+                            <Button className='modal-btn' onClick={addTask1} type="primary">
                             Add task
                         </Button>
                     </Col>
@@ -194,7 +194,7 @@ const TodoList = () => {
                         <hr className='todo-hr' />
                         <Col className='todo-btns' id="allTasks">
                             <Select
-                                //  id='ant-select-selector'
+                                //className='ant-select-selector'
                                 value={taskStatus}
                                 className='selectBar'
                                 onChange={newTaskStatus => {
@@ -216,7 +216,7 @@ const TodoList = () => {
                                     // }
                                 }}
                             >
-                                <Option key="allTask" value="" style={{background:"orange"}}> Show All Tasks</Option>
+                                <Option key="allTask" value="" style={{ background: "orange" }}> Show All Tasks</Option>
                                 <Option key="completedTasks" value="Completed Tasks"> Completed Tasks</Option>
                                 <Option value="Pending Tasks"> Pending Tasks</Option>
                                 <Option key="overdueTasks" value="Overdue Tasks"> Overdue Tasks</Option>
@@ -238,8 +238,8 @@ const TodoList = () => {
                             </Space>
                         </Modal>
                         {
-                             filtered.sort((a, b) => a.id - b.id).map((item) => {
-                            // filtered.map((item) => {
+                            filtered.sort((a, b) => a.id - b.id).map((item) => {
+                                // filtered.map((item) => {
                                 return <Col key={item.id}>
                                     <Col className='todo-group' style={{ color: item.isDone ? "#C0CAD4" : "#4E5D69", borderRadius: item.isDone ? "" : '50%', opacity: item.isDone ? "0.7" : "", fontWeight: item.isDone ? "100" : "400" }}>
                                         <Col className='todos'>
