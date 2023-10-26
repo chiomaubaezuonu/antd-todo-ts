@@ -158,7 +158,6 @@ span.ant-select-selection-item {
 @media (max-width: 768px) {
     .todoList {
         width: 100%;
-        background-color: red;
     }
 }
 
@@ -250,7 +249,6 @@ span.ant-select-selection-item {
     }
 
     span.ant-select-selection-item {
-        background-color: pink;
         padding: 0;
     }
 
@@ -270,7 +268,6 @@ span.ant-select-selection-item {
 
 
     .todoPage-container {
-        background-color: pink;
         padding-top: 4rem;
         padding-left: 4rem;
         padding-right: 4rem;
@@ -280,6 +277,7 @@ span.ant-select-selection-item {
     .todoList {
         width: 80%;
     }
+
     .noTask-wrapper {
         display: flex;
         height: 100vh;
