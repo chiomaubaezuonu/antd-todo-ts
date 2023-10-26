@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import sitter from "../images/sitter.png"
 import { Button, Checkbox, Col, Input, DatePicker, Modal, Row, Select, Space, Progress, Switch } from 'antd';
-//ngimport { todo } from '../Interface';
 import { todoType } from '../App';
 import noTask from "../images/noTask-img.png";
 import '../App.css'
@@ -167,8 +166,8 @@ const TodoList = () => {
                 <Col span={24} className='noTask-wrapper'>
                     <img src={noTask} className='home-img' alt='no-task-img' />
                     <Title className='homePage-title level5'>No task yet!! Please add a task</Title>
-                        <Col>
-                            <Button className='modal-btn' onClick={addTask1} type="primary">
+                    <Col>
+                        <Button className='modal-btn' onClick={addTask1} type="primary">
                             Add task
                         </Button>
                     </Col>
