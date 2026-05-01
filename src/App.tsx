@@ -1,28 +1,22 @@
-import React, { FC, useState } from 'react'
-import HomePage from './HomePage'
-import { createContext } from 'react';
-import { todo } from './Interface';
-import TodoList from './pages/TodoList';
-import Tuts from './pages/Tuts';
-// import TodoList from './pages/TodoList2';
-
+import React, { FC, useState } from "react";
+import { createContext } from "react";
+import { todo } from "./Interface";
+import TodoList from "./pages/TodoList";
 
 export type todoType = {
-  taskList : todo[],
-  setTaskList :  React.Dispatch<React.SetStateAction<todo[]>>
-}
-export const taskContext = createContext({} as todoType)
+  taskList: todo[];
+  setTaskList: React.Dispatch<React.SetStateAction<todo[]>>;
+};
+export const taskContext = createContext({} as todoType);
 const App = () => {
- 
-  const [taskList, setTaskList] = useState<todo[]>([])
+  const [taskList, setTaskList] = useState<todo[]>([]);
   return (
     <div>
-    <taskContext.Provider value={{taskList, setTaskList}}>
-    <TodoList />
-    {/* <Tuts /> */}
-    </taskContext.Provider>
+      <taskContext.Provider value={{ taskList, setTaskList }}>
+        <TodoList />
+      </taskContext.Provider>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
